@@ -50,7 +50,7 @@ class NetworkPacket:
         byte_S = str(self.dst_addr).zfill(self.dst_addr_S_length)
         byte_S += self.data_S
         return byte_S
-    
+     
     ## extract a packet object from a byte string
     # @param byte_S: byte string representation of the packet
     @classmethod
@@ -80,9 +80,11 @@ class Host:
     # @param dst_addr: destination address for the packet
     # @param data_S: data being transmitted to the network layer
     def udt_send(self, dst_addr, data_S):
-        p = NetworkPacket(dst_addr, data_S)
-        self.out_intf_L[0].put(p.to_byte_S()) #send packets always enqueued successfully
-        print('%s: sending packet "%s" out interface with mtu=%d' % (self, p, self.out_intf_L[0].mtu))
+        new_data_S = [data_S[i:i+self.out_intf_L[0].mtu] for i in range(0, len(data_S), self.out_intf_L[0].mtu)]
+        for data in new_data_S:
+            p = NetworkPacket(dst_addr, data)
+            self.out_intf_L[0].put(p.to_byte_S()) #send packets always enqueued successfully
+            print('%s: sending packet "%s" out interface with mtu=%d' % (self, p, self.out_intf_L[0].mtu))
         
     ## receive packet from the network layer
     def udt_receive(self):
