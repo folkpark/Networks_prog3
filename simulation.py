@@ -44,9 +44,7 @@ if __name__ == '__main__':
         t.start()
     
     
-    #create some send events    
-    for i in range(3):
-        client.udt_send(2, 'Sample data %d' % i)
+    client.udt_send(2, 'Car Dealership: The best way to get back on your feet, is to miss a car payment.')
     
     
     #give the network sufficient time to transfer all packets before quitting
