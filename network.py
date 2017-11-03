@@ -35,11 +35,15 @@ class NetworkPacket:
     ## packet encoding lengths 
     dst_addr_S_length = 5
     
+    
     ##@param dst_addr: address of the destination host
     # @param data_S: packet payload
-    def __init__(self, dst_addr, data_S):
+    def __init__(self, dst_addr, data_S, id, flag, offset):
         self.dst_addr = dst_addr
         self.data_S = data_S
+        self.id = id
+        self.flag = flag
+        self.offset = offset
         
     ## called when printing the object
     def __str__(self):
@@ -49,6 +53,9 @@ class NetworkPacket:
     def to_byte_S(self):
         byte_S = str(self.dst_addr).zfill(self.dst_addr_S_length)
         byte_S += self.data_S
+        byte_S += str(self.id)
+        byte_S += str(self.flag)
+        byte_S += str(self.offset)
         return byte_S
      
     ## extract a packet object from a byte string
@@ -56,8 +63,14 @@ class NetworkPacket:
     @classmethod
     def from_byte_S(self, byte_S):
         dst_addr = int(byte_S[0 : NetworkPacket.dst_addr_S_length])
-        data_S = byte_S[NetworkPacket.dst_addr_S_length : ]
-        return self(dst_addr, data_S)
+        data_S = byte_S[NetworkPacket.dst_addr_S_length :]
+        id = data_S[len(data_S)-5:-2]
+        flag = data_S[len(data_S)-2:-1]
+        offset = data_S[len(data_S)-1:]
+        print("This packet has an id of", id)
+        print("This packet has a flag of", flag)
+        print("This packet has an offset of", offset)
+        return self(dst_addr, data_S, id, flag, offset)
     
 
     
@@ -79,10 +92,12 @@ class Host:
     ## create a packet and enqueue for transmission
     # @param dst_addr: destination address for the packet
     # @param data_S: data being transmitted to the network layer
-    def udt_send(self, dst_addr, data_S):
-        new_data_S = [data_S[i:i+self.out_intf_L[0].mtu] for i in range(0, len(data_S), self.out_intf_L[0].mtu)]
+    def udt_send(self, dst_addr, data_S, id, flag):
+        #offset 12 data - mtu / 8
+        new_data_S = [data_S[i:i+(self.out_intf_L[0].mtu-10)] for i in range(0, len(data_S), (self.out_intf_L[0].mtu - 10))]
+        offset = int((self.out_intf_L[0].mtu-10)/8)
         for data in new_data_S:
-            p = NetworkPacket(dst_addr, data)
+            p = NetworkPacket(dst_addr, data, id, flag, offset)
             self.out_intf_L[0].put(p.to_byte_S()) #send packets always enqueued successfully
             print('%s: sending packet "%s" out interface with mtu=%d' % (self, p, self.out_intf_L[0].mtu))
         
