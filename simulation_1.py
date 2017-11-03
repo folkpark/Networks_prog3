@@ -3,7 +3,7 @@ Created on Oct 12, 2016
 
 @author: mwitt_000
 '''
-import network
+import network_1 as network
 import link
 import threading
 from time import sleep
