@@ -44,7 +44,7 @@ if __name__ == '__main__':
         t.start()
     
     
-    client.udt_send(2, 'Car Dealership: The best way to get back on your feet, is to miss a car payment.', 777, 1)
+    client.udt_send(2, 'Car Dealership: The best way to get back on your feet, is to miss a car payment.', 1)
     
     
     #give the network sufficient time to transfer all packets before quitting
