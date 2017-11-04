@@ -88,16 +88,17 @@ class Host:
     ## called when printing the object
     def __str__(self):
         return 'Host_%s' % (self.addr)
-       
+    
     ## create a packet and enqueue for transmission
     # @param dst_addr: destination address for the packet
     # @param data_S: data being transmitted to the network layer
     def udt_send(self, dst_addr, data_S, id, flag):
-        #offset 12 data - mtu / 8
-        new_data_S = [data_S[i:i+(self.out_intf_L[0].mtu-10)] for i in range(0, len(data_S), (self.out_intf_L[0].mtu - 10))]
         offset = int((self.out_intf_L[0].mtu-10)/8)
+        new_data_S = [data_S[i:i+(self.out_intf_L[0].mtu-10)] for i in range(0, len(data_S), (self.out_intf_L[0].mtu - 10))]
+        i = 0
         for data in new_data_S:
-            p = NetworkPacket(dst_addr, data, id, flag, offset)
+            i+=1
+            p = NetworkPacket(dst_addr, data, id, flag, offset*i)
             self.out_intf_L[0].put(p.to_byte_S()) #send packets always enqueued successfully
             print('%s: sending packet "%s" out interface with mtu=%d' % (self, p, self.out_intf_L[0].mtu))
         
