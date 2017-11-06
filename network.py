@@ -34,6 +34,7 @@ class Interface:
 class NetworkPacket:
     ## packet encoding lengths 
     dst_addr_S_length = 5
+    final_data =[]
     
     
     ##@param dst_addr: address of the destination host
@@ -61,8 +62,6 @@ class NetworkPacket:
         dst_addr = int(byte_S[0 : NetworkPacket.dst_addr_S_length])
         data_S = byte_S[NetworkPacket.dst_addr_S_length : -1]
         flag = byte_S[len(data_S)+5:]
-        print("This is the data:", data_S)
-        print("This packet has a flag of", flag)
         return self(dst_addr, data_S, flag)
     
 
@@ -85,21 +84,32 @@ class Host:
     ## create a packet and enqueue for transmission
     # @param dst_addr: destination address for the packet
     # @param data_S: data being transmitted to the network layer
-    def udt_send(self, dst_addr, data_S, flag):
+    def udt_send(self, dst_addr, data_S):
         offset = int((self.out_intf_L[0].mtu-10)/8)
         new_data_S = [data_S[i:i+(offset)] for i in range(0, len(data_S), (offset))]
         i = 0
         for data in new_data_S:
+            
+            if(len(data) > i):
+                p = NetworkPacket(dst_addr, data, 1)
+                self.out_intf_L[0].put(p.to_byte_S()) #send packets always enqueued successfully
+                print('%s: sending packet "%s" out interface with mtu=%d' % (self, p, self.out_intf_L[0].mtu))
+            elif(len(data)<= i):
+                p = NetworkPacket(dst_addr, data, 0)
+                self.out_intf_L[0].put(p.to_byte_S()) #send packets always enqueued successfully
+                print('%s: sending packet "%s" out interface with mtu=%d' % (self, p, self.out_intf_L[0].mtu))
+                i=0
             i+=1
-            p = NetworkPacket(dst_addr, data, flag)
-            self.out_intf_L[0].put(p.to_byte_S()) #send packets always enqueued successfully
-            print('%s: sending packet "%s" out interface with mtu=%d' % (self, p, self.out_intf_L[0].mtu))
-        
+
+    
     ## receive packet from the network layer
     def udt_receive(self):
         pkt_S = self.in_intf_L[0].get()
         if pkt_S is not None:
-            print('%s: received packet "%s"' % (self, pkt_S))
+            dst_addr = int(pkt_S[0 : NetworkPacket.dst_addr_S_length])
+            data_S = pkt_S[NetworkPacket.dst_addr_S_length : -1]
+            NetworkPacket.final_data.append(data_S)
+            #print('%s: received packet "%s"' % (self, pkt_S))
        
     ## thread target for the host to keep receiving data
     def run(self):
@@ -110,6 +120,9 @@ class Host:
             #terminate
             if(self.stop):
                 print (threading.currentThread().getName() + ': Ending')
+                if(threading.currentThread().getName()=='Host_2'):
+                    print(threading.currentThread().getName() + ' received the following data:')
+                    print(''.join(NetworkPacket.final_data))
                 return
         
 
