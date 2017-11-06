@@ -14,6 +14,10 @@ simulation_time = 1 #give the network sufficient time to transfer all packets be
 
 if __name__ == '__main__':
     object_L = [] #keeps track of objects, so we can kill their threads
+    Router_A_Table = []
+    Router_B_Table = []
+    Router_C_Table = []
+    Router_D_Table = []
 
     #create part3 network topology
     Host_1 = network.Host(1) #mobile device
@@ -24,13 +28,42 @@ if __name__ == '__main__':
     object_L.append(Host_3)
     Host_4 = network.Host(4)  #Server 4
     object_L.append(Host_4)
-    Router_A = network.Router(name='A', intf_count=2, max_queue_size=router_queue_size)
+
+    #Router tables format (in_interface, dest_addr, out_interface)
+    Host_1_to_A_3 = (0, 3, 0)  # from mobile device to server 3
+    Host_1_to_A_4 = (0, 4, 0)  # from mobile device to server 4
+    Host_2_to_A_3 = (1, 3, 1)  # from laptop to server 3
+    Host_2_to_A_4 = (1, 4, 1)  # from laptop to server 4
+    Router_A_Table.append(Host_1_to_A_3)
+    Router_A_Table.append(Host_1_to_A_4)
+    Router_A_Table.append(Host_2_to_A_3)
+    Router_A_Table.append(Host_2_to_A_4)
+    Router_A = network.Router(name='A', intf_count=2, max_queue_size=router_queue_size, router_table=Router_A_Table)
     object_L.append(Router_A)
-    Router_B = network.Router(name='B', intf_count=1, max_queue_size=router_queue_size)
+
+    Router_A_to_B_3 = (0, 3, 0) # mobile device -> A -> B
+    Router_A_to_B_4 = (0, 4, 0) # mobile device -> A -> B
+    Router_B_Table.append(Router_A_to_B_3)
+    Router_B_Table.append(Router_A_to_B_4)
+    Router_B = network.Router(name='B', intf_count=1, max_queue_size=router_queue_size, router_table=Router_B_Table)
     object_L.append(Router_B)
-    Router_C= network.Router(name='C', intf_count=1, max_queue_size=router_queue_size)
+
+    Router_A_to_C_3 = (0, 3, 0) # laptop -> A -> C
+    Router_A_to_C_4 = (0, 4, 0) # laptop -> A -> C
+    Router_C_Table.append(Router_A_to_C_3)
+    Router_C_Table.append(Router_A_to_C_4)
+    Router_C= network.Router(name='C', intf_count=1, max_queue_size=router_queue_size, router_table=Router_C_Table)
     object_L.append(Router_C)
-    Router_D= network.Router(name='D', intf_count=2, max_queue_size=router_queue_size)
+
+    Router_B_to_D_3 = (0, 3, 0) # mobile device -> A -> B -> D -> 3
+    Router_B_to_D_4 = (0, 4, 1) # mobile device -> A -> B -> D -> 4
+    Router_C_to_D_3 = (0, 3, 0) # laptop -> A -> B -> D -> 3
+    Router_C_to_D_4 = (0, 3, 0) # laptop -> A -> B -> D -> 4
+    Router_D_Table.append(Router_B_to_D_3)
+    Router_D_Table.append(Router_B_to_D_4)
+    Router_D_Table.append(Router_C_to_D_3)
+    Router_D_Table.append(Router_C_to_D_4)
+    Router_D= network.Router(name='D', intf_count=2, max_queue_size=router_queue_size, router_table=Router_D_Table)
     object_L.append(Router_D)
 
 

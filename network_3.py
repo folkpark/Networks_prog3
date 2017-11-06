@@ -105,13 +105,14 @@ class Host:
 
 ## Implements a multi-interface router described in class
 class Router:
-    
+
     ##@param name: friendly router name for debugging
     # @param intf_count: the number of input and output interfaces 
     # @param max_queue_size: max queue length (passed to Interface)
-    def __init__(self, name, intf_count, max_queue_size):
+    def __init__(self, name, intf_count, max_queue_size, router_table):
         self.stop = False #for thread termination
         self.name = name
+        self.router_table = router_table
         #create a list of interfaces
         self.in_intf_L = [Interface(max_queue_size) for _ in range(intf_count)]
         self.out_intf_L = [Interface(max_queue_size) for _ in range(intf_count)]

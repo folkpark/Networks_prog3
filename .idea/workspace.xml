@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="60ad74dc-43af-4d8d-a3d9-67efc38fc500" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/network_3.py" afterPath="$PROJECT_DIR$/network_3.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simulation_3.py" afterPath="$PROJECT_DIR$/simulation_3.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,8 +18,8 @@
       <file leaf-file-name="simulation_3.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/simulation_3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-119">
-              <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+            <state relative-caret-position="98">
+              <caret line="64" column="41" lean-forward="false" selection-start-line="64" selection-start-column="26" selection-end-line="64" selection-end-column="41" />
               <folding>
                 <element signature="e#52#79#0" expanded="true" />
               </folding>
@@ -39,9 +40,13 @@
       <file leaf-file-name="network_3.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/network_3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2118">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="-335">
+              <caret line="114" column="40" lean-forward="false" selection-start-line="114" selection-start-column="40" selection-end-line="114" selection-end-column="40" />
+              <folding>
+                <element signature="e#145#774#0" expanded="false" />
+                <element signature="e#1037#1960#0" expanded="false" />
+                <element signature="e#2046#3486#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -85,10 +90,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/network_3.py" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/simulation.py" />
+        <option value="$PROJECT_DIR$/network_3.py" />
         <option value="$PROJECT_DIR$/simulation_3.py" />
       </list>
     </option>
@@ -98,6 +107,22 @@
     <option name="y" value="-9" />
     <option name="width" value="1938" />
     <option name="height" value="1048" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Python</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -378,14 +403,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/network_3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2118">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/link_3.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-25">
@@ -394,10 +411,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/network_3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-335">
+          <caret line="114" column="40" lean-forward="false" selection-start-line="114" selection-start-column="40" selection-end-line="114" selection-end-column="40" />
+          <folding>
+            <element signature="e#145#774#0" expanded="false" />
+            <element signature="e#1037#1960#0" expanded="false" />
+            <element signature="e#2046#3486#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/simulation_3.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-119">
-          <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+        <state relative-caret-position="98">
+          <caret line="64" column="41" lean-forward="false" selection-start-line="64" selection-start-column="26" selection-end-line="64" selection-end-column="41" />
           <folding>
             <element signature="e#52#79#0" expanded="true" />
           </folding>
