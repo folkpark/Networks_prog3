@@ -39,6 +39,7 @@ class NetworkPacket:
     # @param data_S: packet payload
     def __init__(self, dst_addr, data_S):
         self.dst_addr = dst_addr
+        #self.src_addr = src_addr
         self.data_S = data_S
         
     ## called when printing the object
@@ -132,12 +133,22 @@ class Router:
                 #if packet exists make a forwarding decision
                 if pkt_S is not None:
                     p = NetworkPacket.from_byte_S(pkt_S) #parse a packet out
+
+                    #x -> in_intf, y -> dst_addr, z -> out_intf
+                    for (x,y,z) in self.router_table:
+                        if x == i and y == p.dst_addr: #if the entry matches the intf the packet came from
+                            print ('Table Entries: ', x, y, z)
+                            print ('Forwarding from router: ', self.name, 'to interface ',z)
+                            self.out_intf_L[z].put(p.to_byte_S(), True)
+                            break
+
+
                     # HERE you will need to implement a lookup into the 
                     # forwarding table to find the appropriate outgoing interface
                     # for now we assume the outgoing interface is also i
-                    self.out_intf_L[i].put(p.to_byte_S(), True)
-                    print('%s: forwarding packet "%s" from interface %d to %d with mtu %d' \
-                        % (self, p, i, i, self.out_intf_L[i].mtu))
+                    #self.out_intf_L[i].put(p.to_byte_S(), True)
+                    #print('%s: forwarding packet "%s" from interface %d to %d with mtu %d' \
+                    #    % (self, p, i, i, self.out_intf_L[i].mtu))
             except queue.Full:
                 print('%s: packet "%s" lost on interface %d' % (self, p, i))
                 pass

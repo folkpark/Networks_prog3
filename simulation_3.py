@@ -10,7 +10,7 @@ from time import sleep
 
 ##configuration parameters
 router_queue_size = 0 #0 means unlimited
-simulation_time = 1 #give the network sufficient time to transfer all packets before quitting
+simulation_time = 2 #give the network sufficient time to transfer all packets before quitting
 
 if __name__ == '__main__':
     object_L = [] #keeps track of objects, so we can kill their threads
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     Host_4 = network.Host(4)  #Server 4
     object_L.append(Host_4)
 
-    #Router tables format (in_interface, dest_addr, out_interface)
+    #Router tables format (in_interface, dst_addr, out_interface)
     Host_1_to_A_3 = (0, 3, 0)  # from mobile device to server 3
     Host_1_to_A_4 = (0, 4, 0)  # from mobile device to server 4
     Host_2_to_A_3 = (1, 3, 1)  # from laptop to server 3
@@ -57,8 +57,8 @@ if __name__ == '__main__':
 
     Router_B_to_D_3 = (0, 3, 0) # mobile device -> A -> B -> D -> 3
     Router_B_to_D_4 = (0, 4, 1) # mobile device -> A -> B -> D -> 4
-    Router_C_to_D_3 = (0, 3, 0) # laptop -> A -> B -> D -> 3
-    Router_C_to_D_4 = (0, 3, 0) # laptop -> A -> B -> D -> 4
+    Router_C_to_D_3 = (1, 3, 0) # laptop -> A -> B -> D -> 3
+    Router_C_to_D_4 = (1, 4, 1) # laptop -> A -> B -> D -> 4
     Router_D_Table.append(Router_B_to_D_3)
     Router_D_Table.append(Router_B_to_D_4)
     Router_D_Table.append(Router_C_to_D_3)
@@ -97,9 +97,12 @@ if __name__ == '__main__':
     for t in thread_L:
         t.start()
 
+    Host_1.udt_send(3,' Hello')
+    #Host_2.udt_send(4,' Sup dog')
 
     '''
     #create some send events    
+    #udt_send(self, dst_addr, src_addr, data_S):
     for i in range(3):
         client.udt_send(2, 'Sample data %d' % i)
     '''
